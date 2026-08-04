@@ -1,0 +1,7 @@
+- [x] Initialize Vite + React project structure (dependencies, vite.config.js, package.json)
+- [x] Create backend directory and setup SQLite + FastAPI (`requirements.txt`, `database.py`, `main.py`)
+- [x] Implement initial React components (`Header.jsx`, `ProductGallery.jsx`, `App.jsx`)
+- [x] Implement supporting React components (`UserProfile.jsx`, `CartDrawer.jsx`, `QuickViewModal.jsx`)
+- [x] Migrate static assets and styles (`styles.css` to `src/index.css`)
+- [x] Connect React frontend API calls to FastAPI endpoints
+- [x] Verify both servers run and build compiles successfully
