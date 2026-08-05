@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { FaMapMarkerAlt, FaChevronDown, FaSearch, FaTimes, FaHeart, FaShoppingBag, FaMoon, FaSun, FaBars } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaChevronDown, FaSearch, FaTimes, FaHeart, FaShoppingBag, FaMoon, FaSun, FaBars, FaImages, FaHome } from 'react-icons/fa';
 import { MdDiamond } from 'react-icons/md';
 import Magnet from './Magnet';
 
@@ -285,26 +285,108 @@ export default function Header({
 
         <div className="mobile-header" style={{ display: isMobile ? 'block' : 'none', width: '100%' }}>
           <div className="mobile-header-bar">
-            <Magnet range={60} strength={0.25}>
-              <Link
-                to="/"
-                className={`${brandClass} brand-logo`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <MdDiamond size={20} style={{ marginRight: '0.5rem', color: '#4c1d95' }} />
-                {BRAND_NAME}
-              </Link>
-            </Magnet>
+            <div className="mobile-header-bar-top">
+              <Magnet range={60} strength={0.25}>
+                <Link
+                  to="/"
+                  className={`${brandClass} brand-logo`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <MdDiamond size={20} style={{ marginRight: '0.5rem', color: '#4c1d95' }} />
+                  {BRAND_NAME}
+                </Link>
+              </Magnet>
 
-            <button
-              type="button"
-              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-              aria-label="Toggle mobile menu"
-              className="mobile-menu-toggle"
-              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '44px', height: '44px', borderRadius: '12px', background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', color: 'var(--text-primary)' }}
-            >
-              <FaBars />
-            </button>
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                aria-label="Toggle mobile menu"
+                className="mobile-menu-toggle"
+                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '44px', height: '44px', borderRadius: '12px', background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', color: 'var(--text-primary)' }}
+              >
+                <FaBars />
+              </button>
+            </div>
+
+            {isSearchOpen && (
+              <div className="mobile-search-row">
+                <input
+                  type="search"
+                  autoFocus
+                  placeholder="Search silver..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="mobile-search-input"
+                />
+              </div>
+            )}
+
+            <div className="mobile-header-bar-actions">
+              <Magnet>
+                <Link
+                  to="/"
+                  className="icon-btn"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsSearchOpen(false);
+                  }}
+                  aria-label="Open Home"
+                  title="Home"
+                >
+                  <FaHome />
+                </Link>
+              </Magnet>
+
+              <Magnet>
+                <Link
+                  to="/#gallery"
+                  className="icon-btn"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  aria-label="Open Gallery"
+                  title="View Gallery"
+                >
+                  <FaImages />
+                </Link>
+              </Magnet>
+
+              <Magnet>
+                <button
+                  className="icon-btn"
+                  onClick={() => setIsSearchOpen((prev) => !prev)}
+                  aria-label="Toggle Search"
+                  title="Search Ornaments"
+                >
+                  {isSearchOpen ? <FaTimes /> : <FaSearch />}
+                </button>
+              </Magnet>
+
+              <Magnet>
+                <Link
+                  to={wishlistPath}
+                  className="icon-btn"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  aria-label="Open Wishlist"
+                  title="View Wishlist"
+                  style={{ position: 'relative' }}
+                >
+                  <FaHeart />
+                  {wishlistCount > 0 && <span className="cart-count" style={{ backgroundColor: '#ef4444', color: '#fff' }}>{wishlistCount}</span>}
+                </Link>
+              </Magnet>
+
+              <Magnet>
+                <Link
+                  to={cartPath}
+                  className="icon-btn"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  aria-label="Open shopping cart"
+                  title="View Cart"
+                >
+                  <FaShoppingBag />
+                  <span className="cart-count">{cartCount}</span>
+                </Link>
+              </Magnet>
+            </div>
           </div>
 
           {isMobileMenuOpen && (
@@ -317,19 +399,13 @@ export default function Header({
               </nav>
 
               <div style={{ display: 'grid', gap: '0.75rem' }}>
-                <button onClick={() => setIsSearchOpen((prev) => !prev)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.85rem 1rem', borderRadius: '14px', border: '1px solid rgba(0,0,0,0.08)', background: '#f8fafc', color: '#121212' }}>
+                <button onClick={() => {
+                  setIsSearchOpen((prev) => !prev);
+                  setIsMobileMenuOpen(false);
+                }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.85rem 1rem', borderRadius: '14px', border: '1px solid rgba(0,0,0,0.08)', background: '#f8fafc', color: '#121212' }}>
                   Search
                   <span>{isSearchOpen ? <FaTimes /> : <FaSearch />}</span>
                 </button>
-                {isSearchOpen && (
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search silver..."
-                    style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '14px', border: '1px solid rgba(0,0,0,0.08)', color: '#121212' }}
-                  />
-                )}
 
                 <Link to={wishlistPath} onClick={() => setIsMobileMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.85rem 1rem', borderRadius: '14px', border: '1px solid rgba(0,0,0,0.08)', color: '#121212' }}>
                   Wishlist
