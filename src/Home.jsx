@@ -16,6 +16,7 @@ export default function Home({ searchQuery = '' }) {
     const [activeFilter, setActiveFilter] = useState('all');
     const [quickViewProduct, setQuickViewProduct] = useState(null);
     const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
     const { wishlistItems, addToCart, toggleWishlist } = useCart();
 
     useEffect(() => {
@@ -103,30 +104,51 @@ export default function Home({ searchQuery = '' }) {
         window.open(url, '_blank', 'noopener,noreferrer');
     };
 
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useEffect(() => {
+        const query = (searchQuery || '').trim();
+        if (!query) return;
+
+        const gallerySection = document.getElementById('gallery');
+        if (gallerySection) {
+            gallerySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, [searchQuery]);
+
+    const isDesktop = windowWidth >= 768;
+    const showHero = !searchQuery.trim() || !isDesktop;
+
     return (
         <>
-            <section className="hero">
-                <div className="hero-content">
-                    <p className="hero-subtitle">Pure Moonlit Silver</p>
-                    <h1>SHINE WITH PURE MOONLIT GRACE</h1>
-                    <p className="hero-desc">
-                        Discover handcrafted silver ornaments designed to glow with every moment.
-                        Browse our selection of rings, chains, bracelets, and earrings made for modern elegance.
-                    </p>
-                    <button
-                        className="btn-primary"
-                        type="button"
-                        onClick={() => {
-                            const gallerySection = document.getElementById('gallery');
-                            if (gallerySection) {
-                                gallerySection.scrollIntoView({ behavior: 'smooth' });
-                            }
-                        }}
-                    >
-                        EXPLORE ORNAMENTS
-                    </button>
-                </div>
-            </section>
+            {showHero && (
+                <section className="hero">
+                    <div className="hero-content">
+                        <p className="hero-subtitle">Pure Moonlit Silver</p>
+                        <h1>SHINE WITH PURE MOONLIT GRACE</h1>
+                        <p className="hero-desc">
+                            Discover handcrafted silver ornaments designed to glow with every moment.
+                            Browse our selection of rings, chains, bracelets, and earrings made for modern elegance.
+                        </p>
+                        <button
+                            className="btn-primary"
+                            type="button"
+                            onClick={() => {
+                                const gallerySection = document.getElementById('gallery');
+                                if (gallerySection) {
+                                    gallerySection.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }}
+                        >
+                            EXPLORE ORNAMENTS
+                        </button>
+                    </div>
+                </section>
+            )}
 
             <section className="gallery-section section-padding" id="gallery">
                 <div className="container">

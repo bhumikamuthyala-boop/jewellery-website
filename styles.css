@@ -592,7 +592,7 @@ img {
 }
 
 .icon-btn {
-  color: #111827;
+  color: var(--text-primary);
   font-size: 1.2rem;
   position: relative;
   transition: var(--transition-fast);
@@ -602,20 +602,14 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.icon-btn:hover {
-  color: #6d28d9;
-  border-color: rgba(255, 255, 255, 0.24);
-  background-color: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .icon-btn:hover {
   color: var(--accent-silver);
-  border-color: var(--border-color);
-  background-color: var(--bg-tertiary);
+  border-color: rgba(255, 255, 255, 0.28);
+  background-color: rgba(255, 255, 255, 0.18);
 }
 
 .cart-count {
@@ -2015,8 +2009,9 @@ textarea.form-input {
     padding: 0.85rem 0.95rem;
     border-radius: 14px;
     border: 1px solid rgba(148, 163, 184, 0.35);
-    background: #f8fafc;
+    background: var(--bg-tertiary);
     color: var(--text-primary);
+    caret-color: var(--text-primary);
     font-size: 0.95rem;
   }
 
